@@ -23,5 +23,42 @@ namespace Exo.WebAPi.Controllers
     {
       return Ok(_projetoRepository.Listar());
     }
+
+    [HttpPost]
+    public IActionResult Cadastrar(Projeto projeto)
+    {
+      _projetoRepository.Cadastrar(projeto);
+      return StatusCode(201);
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult BuscarPorId(int id)
+    {
+      Projeto projeto = _projetoRepository.BuscarPorId(id);
+      if(projeto == null)
+      {
+        return NotFound();
+      }
+      return Ok(projeto);
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult AtualizarProjeto(int id, Projeto projeto)
+    {
+      _projetoRepository.Atualizar(id, projeto);
+      return StatusCode(204);
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeletarProjeto(int id)
+    {
+      try{
+        _projetoRepository.Deletar(id);
+        return StatusCode(204);
+      }catch(Exception e)
+      {
+        return BadRequest();
+      }
+    }
   }
 }
